@@ -93,7 +93,7 @@ app.use(session({
 
 // Restrictive access control: only admins can access anything except index.html, login, register, and auth pages
 app.use((req, res, next) => {
-  const publicPaths = ['/', '/index.html', '/login', '/register', '/auth/login.html', '/auth/register.html', '/auth/error.html'];
+  const publicPaths = ['/login', '/register', '/auth/login.html', '/auth/register.html', '/auth/error.html'];
   const isPublic =
     publicPaths.includes(req.path) ||
     req.path.startsWith('/public/') ||
