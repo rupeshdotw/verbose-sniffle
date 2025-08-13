@@ -92,8 +92,34 @@ app.use(session({
 }));
 
 // Restrictive access control: only admins can access anything except index.html, login, register, and auth pages
+// app.use((req, res, next) => {
+//   const publicPaths = ['/login', '/register', '/auth/login.html', '/auth/register.html', '/auth/error.html'];
+//   const isPublic =
+//     publicPaths.includes(req.path) ||
+//     req.path.startsWith('/public/') ||
+//     req.path.startsWith('/style.css') ||
+//     req.path.startsWith('/app.js') ||
+//     req.path.startsWith('/favicon.ico');
+//   if (isPublic) return next();
+//   if (req.session && req.session.user) {
+//     if (req.session.user.role === 'admin') {
+//       return next(); // Admins can access everything
+//     } else {
+//       // Non-admins: only allow public pages
+//       return res.redirect('/index.html');
+//     }
+//   }
+//   // Not logged in: redirect to login
+//   if (req.accepts('html')) {
+//     return res.redirect('/auth/login.html');
+//   } else {
+//     return res.status(401).json({ error: 'Unauthorized' });
+//   }
+// });
+
+// Restrictive access control: only admins can access anything except index.html, login, register, and auth pages
 app.use((req, res, next) => {
-  const publicPaths = ['/login', '/register', '/auth/login.html', '/auth/register.html', '/auth/error.html'];
+  const publicPaths = ['/login', '/logout', '/register', '/auth/login.html', '/auth/register.html', '/auth/error.html'];
   const isPublic =
     publicPaths.includes(req.path) ||
     req.path.startsWith('/public/') ||
@@ -105,10 +131,14 @@ app.use((req, res, next) => {
     if (req.session.user.role === 'admin') {
       return next(); // Admins can access everything
     } else {
-      // Non-admins: only allow public pages
+      // Allow non-admins to access index.html or public resources
+      if (req.path === '/index.html' || isPublic) {
+        return next();
+      }
       return res.redirect('/index.html');
     }
   }
+  
   // Not logged in: redirect to login
   if (req.accepts('html')) {
     return res.redirect('/auth/login.html');

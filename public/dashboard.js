@@ -10,6 +10,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     return res.json();
   }
 
+  // Format timestamp to IST - helper function to convert to IST
+  function formatToIST(utcTimestamp) {
+    return new Date(utcTimestamp).toLocaleString('en-IN', {
+      timeZone: 'Asia/Kolkata',
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true
+    }) + ' IST';
+  }
+
   // For admin search
   let lastSearch = '';
   let lastAction = '';
@@ -36,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         tbody.innerHTML = '';
         summary.activityLogs.forEach(log => {
           const tr = document.createElement('tr');
-          tr.innerHTML = `<td>${log.timestamp}</td><td>${log.action}</td><td>${log.details || ''}</td>`;
+          tr.innerHTML = `<td>${formatToIST(log.timestamp)}</td><td>${log.action}</td><td>${log.details || ''}</td>`;
           tbody.appendChild(tr);
         });
         document.getElementById('adminSection').style.display = 'none';
@@ -59,7 +73,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         adminTbody.innerHTML = '';
         allLogs.forEach(log => {
           const tr = document.createElement('tr');
-          tr.innerHTML = `<td>${log.username}</td><td>${log.timestamp}</td><td>${log.action}</td><td>${log.details || ''}</td>`;
+          tr.innerHTML = `<td>${log.username}</td><td>${formatToIST(log.timestamp)}</td><td>${log.action}</td><td>${log.details || ''}</td>`;
           adminTbody.appendChild(tr);
         });
         // Fill user management table
@@ -85,7 +99,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         tbody.innerHTML = '';
         allLogs.forEach(log => {
           const tr = document.createElement('tr');
-          tr.innerHTML = `<td>${log.username}</td><td>${log.timestamp}</td><td>${log.action}</td><td>${log.details || ''}</td>`;
+          tr.innerHTML = `<td>${log.username}</td><td>${formatToIST(log.timestamp)}</td><td>${log.action}</td><td>${log.details || ''}</td>`;
           tbody.appendChild(tr);
         });
         // Handle role change
