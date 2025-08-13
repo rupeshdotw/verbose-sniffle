@@ -8,7 +8,7 @@ import helmet, { referrerPolicy } from "helmet";
 import rateLimit from "express-rate-limit";
 import os from 'os';
 import session from 'express-session';
-import * as connectRedis from 'connect-redis';
+import connectRedis from 'connect-redis';
 import { createClient } from 'redis';
 import https from 'https';
 import fs from 'fs/promises';
