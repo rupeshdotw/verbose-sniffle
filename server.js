@@ -20,6 +20,15 @@ dotenv();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Setup Redis client
+const RedisStore = connectRedis(session);
+const redisClient = createClient({
+  url: process.env.REDIS_URL || 'redis://localhost:6379',
+  legacyMode: true
+});
+
+redisClient.connect().catch(console.error);
+
 const app = express();
 
 // Add body parsing middleware for JSON and URL-encoded forms
@@ -85,28 +94,17 @@ setTimeout(() => {
 // app.use('/analytics', basicAuth(authConfig));
 //app.use('/resolve-multiple', basicAuth(authConfig));
 
-// Setup Redis client
-const RedisStore = connectRedis.default(session); // 👈 use .default
-
-const redisClient = createClient({
-  url: process.env.REDIS_URL,
-  legacyMode: true, // Important for compatibility
-});
-
-await redisClient.connect().catch(console.error);
-
+// Use Redis for session storage
 app.use(session({
   store: new RedisStore({ client: redisClient }),
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SECRET_SESSION_KEY,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false, // Set to true in production
-    httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 // 1 day
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 24 * 60 * 60 * 1000
   }
 }));
-
 
 // Restrictive access control: only admins can access anything except index.html, login, register, and auth pages
 app.use((req, res, next) => {
