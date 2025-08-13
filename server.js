@@ -93,7 +93,7 @@ app.use(session({
 
 // Restrictive access control: only admins can access anything except index.html, login, register, and auth pages
 app.use((req, res, next) => {
-  const publicPaths = ['/', '/index.html', '/login', '/register', '/auth/login.html', '/auth/register.html', '/auth/error.html'];
+  const publicPaths = ['/login', '/register', '/auth/login.html', '/auth/register.html', '/auth/error.html'];
   const isPublic =
     publicPaths.includes(req.path) ||
     req.path.startsWith('/public/') ||
@@ -931,20 +931,17 @@ app.get('/logout', (req, res) => {
 });
 
 //Keep Render service awake by pinging itself every 14 minutes
-// setInterval(() => {
-//   const url = 'https://tracetoend.onrender.com/ip'; // Replace with your actual Render URL
+setInterval(() => {
+  const url = 'https://verbose-sniffle-zjdb.onrender.com/'; // Replace with your actual Render URL
 
-//   https.get(url, (res) => {
-//     console.log(`[KEEP-AWAKE] Pinged self. Status code: ${res.statusCode}`);
-//   }).on('error', (err) => {
-//     console.error('[KEEP-AWAKE] Self-ping error:', err.message);
-//   });
-// }, 14 * 60 * 1000); // every 10 minutes
+  https.get(url, (res) => {
+    console.log(`[KEEP-AWAKE] Pinged self. Status code: ${res.statusCode}`);
+  }).on('error', (err) => {
+    console.error('[KEEP-AWAKE] Self-ping error:', err.message);
+  });
+}, 14 * 60 * 1000); // every 14 minutes
 
-app.listen(PORT, () => {
-  console.log(`🚀 Region-aware resolver running at http://localhost:${PORT}`);
-});
-
+// start logging functionality
 // Helper to log activity for the current user
 async function logUserActivity(req, action, details = '') {
   if (req.session && req.session.user) {
@@ -1095,4 +1092,8 @@ app.post('/campaigns/upload', async (req, res) => {
   if (!Array.isArray(campaigns)) return res.status(400).json({ error: 'Invalid campaigns data' });
   await logUserActivity(req, 'upload_csv', `Uploaded ${campaigns.length} campaigns via CSV.`);
   res.json({ message: 'CSV upload processed (activity logged).' });
+});
+
+app.listen(PORT, () => {
+  console.log(`🚀 Region-aware resolver running at http://localhost:${PORT}`);
 });
