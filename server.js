@@ -8,7 +8,7 @@ import helmet, { referrerPolicy } from "helmet";
 import rateLimit from "express-rate-limit";
 import os from 'os';
 import session from 'express-session';
-import connectRedis from 'connect-redis';
+import * as connectRedis from 'connect-redis';
 import { createClient } from 'redis';
 import https from 'https';
 import fs from 'fs/promises';
@@ -86,25 +86,27 @@ setTimeout(() => {
 //app.use('/resolve-multiple', basicAuth(authConfig));
 
 // Setup Redis client
-const RedisStore = connectRedis(session);
+const RedisStore = connectRedis.default(session); // 👈 use .default
+
 const redisClient = createClient({
-  url: process.env.REDIS_URL || 'redis://localhost:6379',
-  legacyMode: true
+  url: process.env.REDIS_URL,
+  legacyMode: true, // Important for compatibility
 });
 
-redisClient.connect().catch(console.error);
+await redisClient.connect().catch(console.error);
 
-// Use Redis for session storage
 app.use(session({
   store: new RedisStore({ client: redisClient }),
-  secret: process.env.SECRET_SESSION_KEY,
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production',
-    maxAge: 24 * 60 * 60 * 1000
+    secure: false, // Set to true in production
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 // 1 day
   }
 }));
+
 
 // Restrictive access control: only admins can access anything except index.html, login, register, and auth pages
 app.use((req, res, next) => {
