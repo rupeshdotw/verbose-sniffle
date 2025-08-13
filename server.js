@@ -20,18 +20,18 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Setup Redis client
-// ⏬ Dynamic import for connect-redis to support ESM
-const connectRedis = (await import('connect-redis')).default;
+// ✅ Dynamic import of connect-redis
+const { default: connectRedis } = await import('connect-redis');
 
-// 🧠 Create Redis client
+// 🔌 Create Redis client
 const redisClient = createClient({
   url: process.env.REDIS_URL || 'redis://localhost:6379',
-  legacyMode: true, // required for connect-redis compatibility
+  legacyMode: true, // Required for connect-redis compatibility
 });
 
-redisClient.connect().catch(console.error);
+await redisClient.connect().catch(console.error);
 
-// 🎯 Create Redis store
+// 🧠 Create Redis session store
 const RedisStore = connectRedis(session);
 
 const app = express();
