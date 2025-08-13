@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Rupesh Shah">
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/5220/5220478.png">
+  <title>Register - Create Account</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+    body {
+      font-family: 'Albert Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .register-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 24px;
+      padding: 2rem 1.5rem;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      position: relative;
+      z-index: 1;
+      margin: auto;
+    }
+    .logo-container {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .logo {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      border-radius: 16px;
+      margin: 0 auto 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .logo::after {
+      content: '📝';
+      font-size: 1.2rem;
+      filter: brightness(0) invert(1);
+    }
+    .welcome-text {
+      color: #1e293b;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.025em;
+    }
+    .subtitle {
+      color: #64748b;
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .form-group {
+      margin-bottom: 1.25rem;
+      position: relative;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+      letter-spacing: 0.025em;
+    }
+    .input-container {
+      position: relative;
+    }
+    input[type="text"], input[type="password"] {
+      width: 80%;
+      padding: 0.875rem 1rem;
+      padding-left: 3rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+      background: rgba(248, 250, 252, 0.8);
+      backdrop-filter: blur(10px);
+      font-family: 'Albert Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    input[type="text"]:focus, input[type="password"]:focus {
+      outline: none;
+      border-color: #6366f1;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+      transform: translateY(-1px);
+    }
+    .input-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #64748b;
+      font-size: 1.1rem;
+      z-index: 1;
+    }
+    .register-btn {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Albert Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .register-btn:active {
+      transform: translateY(0);
+    }
+    .error {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.1);
+      padding: 0.75rem;
+      border-radius: 8px;
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+    .success {
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.1);
+      padding: 0.75rem;
+      border-radius: 8px;
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+    .login-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e2e8f0;
+      color: #64748b;
+      font-size: 0.875rem;
+    }
+    .login-link a {
+      color: #6366f1;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 0.25rem;
+    }
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <div class="logo-container">
+      <div class="logo"></div>
+      <h1 class="welcome-text">Create Account</h1>
+      <p class="subtitle">Sign up to start using the platform</p>
+    </div>
+    <form id="registerForm" autocomplete="off">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <div class="input-container">
+          <input type="text" id="username" name="username" required autofocus>
+          <div class="input-icon">👤</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-container">
+          <input type="password" id="password" name="password" required>
+          <div class="input-icon">🔒</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <div class="input-container">
+          <input type="password" id="confirmPassword" name="confirmPassword" required>
+          <div class="input-icon">🔒</div>
+        </div>
+      </div>
+      <div class="form-group" id="roleGroup" style="display:none;">
+        <label for="role">Role</label>
+        <select id="role" name="role">
+          <option value="user" selected>User</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <button type="submit" class="register-btn">Sign Up</button>
+      <div id="formMessage"></div>
+    </form>
+    <div class="login-link">
+      Already have an account?
+      <a href="/auth/login.html">Sign in</a>
+    </div>
+  </div>
+  <script>
+    // Show role selection if admin is registering (detected via session, can be toggled by backend if needed)
+    // For now, always hidden unless you want to expose it
+    // Client-side validation
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const role = document.getElementById('role') ? document.getElementById('role').value : 'user';
+      const messageDiv = document.getElementById('formMessage');
+      messageDiv.textContent = '';
+      messageDiv.className = '';
+      if (!username || !password || !confirmPassword) {
+        messageDiv.textContent = 'All fields are required.';
+        messageDiv.className = 'error';
+        return;
+      }
+      if (password.length < 6) {
+        messageDiv.textContent = 'Password must be at least 6 characters.';
+        messageDiv.className = 'error';
+        return;
+      }
+      if (password !== confirmPassword) {
+        messageDiv.textContent = 'Passwords do not match.';
+        messageDiv.className = 'error';
+        return;
+      }
+      // Submit registration
+      try {
+        const res = await fetch('/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password, role })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          messageDiv.textContent = 'Registration successful! Redirecting to login...';
+          messageDiv.className = 'success';
+          setTimeout(() => window.location.href = '/auth/login.html', 1500);
+        } else {
+          messageDiv.textContent = data.error || 'Registration failed.';
+          messageDiv.className = 'error';
+        }
+      } catch (err) {
+        messageDiv.textContent = 'Registration failed. Please try again.';
+        messageDiv.className = 'error';
+      }
+    });
+  </script>
+</body>
+</html>

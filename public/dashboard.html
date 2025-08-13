@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/components/navbar/navbar.js" defer></script>
+</head>
+<body>
+  <div id="navbar-root"></div>
+  <div class="container">
+    <div class="header">
+      <h1>👤 User Dashboard</h1>
+      <p class="subtitle">View your activity, stats, and manage your account</p>
+    </div>
+    <div class="dashboard-content">
+      <section class="user-summary">
+        <h2>Your Activity Summary</h2>
+        <div class="stats-cards">
+          <div class="stat-card1">
+            <div class="stat-value" id="loginCount">0</div>
+            <div class="stat-label">Total Logins</div>
+          </div>
+          <div class="stat-card2">
+            <div class="stat-value" id="urlCount">0</div>
+            <div class="stat-label">Final URLs Generated</div>
+          </div>
+          <div class="stat-card3">
+            <div class="stat-value" id="lastLogin">-</div>
+            <div class="stat-label">Last Login</div>
+          </div>
+        </div>
+      </section>
+      <section class="activity-log">
+        <h2>Recent Activity</h2>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <!-- For admin, show username column -->
+                <th id="usernameHeader" style="display:none;">Username</th>
+                <th>Date/Time</th>
+                <th>Action</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody id="activityTableBody">
+              <!-- Filled by JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="admin-section" id="adminSection" style="display:none;">
+        <h2>Admin: User Management</h2>
+        <div class="search-bar" style="margin-bottom: 1em;">
+          <input type="text" id="userSearchInput" placeholder="Search users by username..." style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Change Role</th>
+              </tr>
+            </thead>
+            <tbody id="userTableBody">
+              <!-- Filled by JS -->
+            </tbody>
+          </table>
+        </div>
+        <div class="admin-activity-logs" style="margin-top:2em;">
+          <h3>User Activity Logs</h3>
+          <div class="search-bar" style="margin-bottom: 1em; display: flex; gap: 1em;">
+            <input type="text" id="adminUserSearchInput" placeholder="Search by username..." style="flex:1; padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+            <input type="text" id="adminActionSearchInput" placeholder="Filter by action type..." style="flex:1; padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+            <input type="text" id="adminDetailsSearchInput" placeholder="Filter by details..." style="flex:2; padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+          </div>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Date/Time</th>
+                  <th>Action</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody id="adminActivityTableBody">
+                <!-- Filled by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <script src="/dashboard.js"></script>
+</body>
+</html>
