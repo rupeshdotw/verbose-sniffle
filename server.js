@@ -8,7 +8,6 @@ import helmet, { referrerPolicy } from "helmet";
 import rateLimit from "express-rate-limit";
 import os from 'os';
 import session from 'express-session';
-import connectRedis from 'connect-redis';
 import { createClient } from 'redis';
 import https from 'https';
 import fs from 'fs/promises';
@@ -21,13 +20,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Setup Redis client
-const RedisStore = connectRedis(session);
+// ⏬ Dynamic import for connect-redis to support ESM
+const connectRedis = (await import('connect-redis')).default;
+
+// 🧠 Create Redis client
 const redisClient = createClient({
   url: process.env.REDIS_URL || 'redis://localhost:6379',
-  legacyMode: true
+  legacyMode: true, // required for connect-redis compatibility
 });
 
 redisClient.connect().catch(console.error);
+
+// 🎯 Create Redis store
+const RedisStore = connectRedis(session);
 
 const app = express();
 
